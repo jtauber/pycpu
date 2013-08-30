@@ -12,3 +12,5 @@ The 4004 (in progress) came from <https://github.com/jtauber/MCS4py>.
 The Z80 (in progress) hadn't been put on GitHub until now.
 
 The 6800 (in progress) is new.
+
+A 6809 is planned next.
