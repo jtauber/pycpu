@@ -1,0 +1,256 @@
+0x00 !     !       ! !          !
+0x01 NOP   -       1 -          2 # no operation
+0x02 !     !       ! !          !
+0x03 !     !       ! !          !
+0x04 !     !       ! !          !
+0x05 !     !       ! !          !
+0x06 TAP   AF      1 -          2 # transfer A to status flag register
+0x07 TPA   A,Flags 1 -          2 # transfer status flag register to A
+0x08 INX   Index   1 -          4 # increment the index register
+0x09 DEX   X       1 -          4 # decrement the index register
+0x0A CLV   Flags   1 -          2 # clear the overflow flag
+0x0B SEV   Flags   1 -          2 # set the overflow flag
+0x0C CLC   Flags   1 -          2 # clear the carry flag
+0x0D SEC   Flags   1 -          2 # set the carry flag
+0x0E CLI   Flags   1 -          2 # clear the interrupt flag
+0x0F SEI   Flags   1 -          2 # set the interrupt flag
+0x10 SBA   AB      1 -          2 # subtract B from A
+0x11 CBA   AB      1 -          2 # compare B to A
+0x12 !     !       ! !          ! 
+0x13 !     !       ! !          !
+0x14 !NBA! AB      1 -          2 # AND accumulators
+0x15 !     !       ! !          !
+0x16 TAB   AB      1 -          2 # Transfer A to B
+0x17 TBA   AB      1 -          2 # Transfer B to A
+0x18 !     !       ! !          !
+0x19 DAA   A       1 -          2 # decimal adjust A
+0x1A !     !       ! !          !
+0x1B ABA   AB      1 -          2 # add B to A
+0x1C !     !       ! !          !
+0x1D !     !       ! !          !
+0x1E !     !       ! !          !
+0x1F !     !       ! !          !
+0x20 BRA   -       2 RELA       4 # branch uncondition
+0x21 !     !       ! !          !
+0x22 BHI   -       2 RELA       4 # branch if ACCUM is higher, C&Z=0
+0x23 BLS   -       2 RELA       4 # branch if ACCUM is lower or same, C&Z=1
+0x24 BCC   -       2 RELA       4 # C=0
+0x25 BCS   -       2 RELA       4 # C=1
+0x26 BNE   -       2 RELA       4 # Z=0
+0x27 BEQ   -       2 RELA       4 # Z=1
+0x28 BVC   -       2 RELA       4 # V=0
+0x29 BVS   -       2 RELA       4 # V=1
+0x2A BPL   -       2 RELA       4 # N=0
+0x2B BMI   -       2 RELA       4 # N=1
+0x2C BGE   -       2 RELA       4 # branch if 2's comp in A is >=, after SUB or Compare, N=V
+0x2D BLT   -       2 RELA       4 # branch if 2's comp in A is <, after SUB or Compare, N<>V
+0x2E BGT   -       2 RELA       4 # branch if 2's comp in A is >, after SUB or Compare, Z=0 N=V
+0x2F BLE   -       2 RELA       4 # branch if 2's comp in A is <=, after SUB or Compare, Z=1 N<>V
+0x30 TSX   XS      1 -          4 # transfer stack pointer to the index register
+0x31 INS   S       1 -          4 # increment the stack pointer
+0x32 PUL   A       1 -          4 # pull data from stack to A
+0x33 PUL   B       1 -          4 # pull data from stack to B
+0x34 DES   S       1 -          4 # decrement the stack pointer
+0x35 TXS   XS      1 -          4 # transfer index register to the stack pointer
+0x36 PSH   A       1 -          4 # push A onto the stack
+0x37 PSH   B       1 -          4 # push B onto the stack
+0x38 !     !       ! !          !
+0x39 RTS   -       1 -          5 # return from subroutine
+0x3A !     !       ! !          !
+0x3B RTI   -       1 -          10 # return from interrupt
+0x3C !     !       ! !          !
+0x3D !     !       ! !          !
+0x3E WAI   -       1 -          9 # wait for interrupt
+0x3F SWI   -       1 -         12 # software interrupt
+0x40 NEG   A       1 -          2 # negate the accumulator
+0x41 !     !       ! !          !
+0x42 !     !       ! !          !
+0x43 COM   A       1 -          2 # complement the accumulator
+0x44 LSR   A       1 -          2 # logical shift right
+0x45 !     !       ! !          !
+0x46 ROR   A       1 -          2 # rotate right
+0x47 ASR   A       1 -          2 # arithmetic shift right
+0x48 ASL   A       1 -          2 # arithmetic shift left
+0x49 ROL   A       1 -          2 # rotate left
+0x4A DEC   A       1 -          2 # decrement the accumulator
+0x4B !     !       ! !          !
+0x4C INC   A       1 -          2 # increment the accumulator
+0x4D TST   A       1 -          2 # test the accumulator
+0x4E !     !       ! !          !
+0x4F CLR   A       1 -          2 # clear the accumulator
+0x50 NEG   B       1 -          2 # negate the accumulator
+0x51 !     !       ! !          !
+0x52 !     !       ! !          !
+0x53 COM   B       1 -          2 # complement the accumulator
+0x54 LSR   B       1 -          2 # logical shift right
+0x55 !     !       ! !          !
+0x56 ROR   B       1 -          2 # rotate right
+0x57 ASR   B       1 -          2 # arithmetic shift right
+0x58 ASL   B       1 -          2 # arithmetic shift left
+0x59 ROL   B       1 -          2 # rotate left
+0x5A DEC   B       1 -          2 # decrement the accumulator
+0x5B !     !       ! !          !
+0x5C INC   B       1 -          2 # increment the accumulator
+0x5D TST   B       1 -          2 # test the accumulator
+0x5E !     !       ! !          !
+0x5F CLR   B       1 -          2 # clear the accumulator
+0x60 NEG   MEM     2 INDEXED    7 # negate the memory location
+0x61 !     !       ! !          !
+0x62 !     !       ! !          !
+0x63 COM   MEM     2 INDEXED    7 # complete the memory location
+0x64 LSR   MEM     2 INDEXED    7 # logical shift right
+0x65 !     !       ! !          !
+0x66 ROR   MEM     2 INDEXED    7 # rotate right
+0x67 ASR   MEM     2 INDEXED    7 # arithmetic shift right
+0x68 ASL   MEM     2 INDEXED    7 # arithmetic shift left
+0x69 ROL   MEM     2 INDEXED    7 # rotate left
+0x6A DEC   MEM     2 INDEXED    7 # decrement the memory location
+0x6B !     !       ! !          !
+0x6C INC   MEM     2 INDEXED    7 # increment the memory location
+0x6D TST   MEM     2 INDEXED    7 # test the memory location
+0x6E JMP   MEM     2 INDEXED    4 # jump
+0x6F CLR   MEM     2 INDEXED    6 # clear the memory location
+0x70 NEG   MEM     3 EXTENDED   6 # negate the memory location
+0x71 !     !       ! !          !
+0x72 !     !       ! !          !
+0x73 COM   MEM     3 EXTENDED   6 # complete the memory location
+0x74 LSR   MEM     3 EXTENDED   6 # logical shift right
+0x75 !     !       ! !          !
+0x76 ROR   MEM     3 EXTENDED   6 # rotate right
+0x77 ASR   MEM     3 EXTENDED   6 # arithmetic shift right
+0x78 ASL   MEM     3 EXTENDED   6 # arithmetic shift left
+0x79 ROL   MEM     3 EXTENDED   6 # rotate left
+0x7A DEC   MEM     3 EXTENDED   6 # decrement the memory location
+0x7B !     !       ! !          !
+0x7C INC   MEM     3 EXTENDED   6 # increment the memory location
+0x7D TST   MEM     3 EXTENDED   6 # test the memory location
+0x7E JMP   MEM     3 EXTENDED   3 # jump
+0x7F CLR   MEM     3 EXTENDED   6 # clear the memory location
+0x80 SUB   A       2 IMMEDIATE  2 # subtract memory contents from accumuator
+0x81 CMP   A       2 IMMEDIATE  2 # compare the contents of memory to accumulator
+0x82 SBC   A       2 IMMEDIATE  2 # subtract mem and carry flag from accumulator
+0x83 !     !       ! !          !
+0x84 AND   A       2 IMMEDIATE  2 # AND the accumulator
+0x85 BIT   A       2 IMMEDIATE  2 # bit test the accumulator
+0x86 LDA   A       2 IMMEDIATE  2 # load accumulator from memory
+0x87 !STA! A       - IMMEDIATE  - # store an accumulator in memory
+0x88 EOR   A       2 IMMEDIATE  2 # XOR the accumulator
+0x89 ADC   A       2 IMMEDIATE  2 # add contents of mem + carry flag to accumulator
+0x8A ORA   A       2 IMMEDIATE  2 # OR the accumulator
+0x8B ADD   A       2 IMMEDIATE  2 # add memory content to the accumlator
+0x8C CPX   X       3 IMMEDIATE  3 # compare the contents of mem to the index reg
+0x8D BSR   -       2 RELA       8
+0x8E LDS   S       3 IMMEDIATE  3 # load the stack pointer
+0x8F !STS! -       - IMMEDIATE  - # store the stack pointer
+0x90 SUB   A       2 DIRECT     3 # subtract memory contents from accumuator
+0x91 CMP   A       2 DIRECT     3 # compare the contents of memory to accumulator
+0x92 SBC   A       2 DIRECT     3 # subtract mem and carry flag from accumulator
+0x93 !     !       ! !          !
+0x94 AND   A       2 DIRECT     3 # AND the accumulator
+0x95 BIT   A       2 DIRECT     3 # bit test the accumulator
+0x96 LDA   A       2 DIRECT     3 # load accumulator from memory
+0x97 STA   A       2 DIRECT     4 # store an accumulator in memory
+0x98 EOR   A       2 DIRECT     3 # XOR the accumulator
+0x99 ADC   A       2 DIRECT     3 # add contents of mem + carry flag to accumulator
+0x9A ORA   A       2 DIRECT     3 # OR the accumulator
+0x9B ADD   A       2 DIRECT     3 # add memory content to the accumlator
+0x9C CPX   X       2 DIRECT     4 # compare the contents of mem to the index reg
+0x9D !HCF! -       - -          -
+0x9E LDS   S       2 DIRECT     4 # load the stack pointer
+0x9F STS   S       2 DIRECT     5 # store the stack pointer
+0xA0 SUB   A       2 INDEXED    5 # subtract memory contents from accumuator
+0xA1 CMP   A       2 INDEXED    5 # compare the contents of memory to accumulator
+0xA2 SBC   A       2 INDEXED    5 # subtract mem and carry flag from accumulator
+0xA3 !     !       ! !          !
+0xA4 AND   A       2 INDEXED    5 # AND the accumulator
+0xA5 BIT   A       2 INDEXED    5 # bit test the accumulator
+0xA6 LDA   A       2 INDEXED    5 # load accumulator from memory
+0xA7 STA   A       2 INDEXED    6 # store an accumulator in memory
+0xA8 EOR   A       2 INDEXED    5 # XOR the accumulator
+0xA9 ADC   A       2 INDEXED    5 # add contents of mem + carry flag to accumulator
+0xAA ORA   A       2 INDEXED    5 # OR the accumulator
+0xAB ADD   A       2 INDEXED    5 # add memory content to the accumlator
+0xAC CPX   X       2 INDEXED    6 # compare the contents of mem to the index reg
+0xAD JSR   -       2 -          8 # jump to subroutine
+0xAE LDS   S       2 INDEXED    6 # load the stack pointer
+0xAF STS   S       2 INDEXED    7 # store the stack pointer
+0xB0 SUB   A       3 EXTENDED   5 # subtract memory contents from accumuator
+0xB1 CMP   A       3 EXTENDED   5 # compare the contents of memory to accumulator
+0xB2 SBC   A       3 EXTENDED   5 # subtract mem and carry flag from accumulator
+0xB3 !     !       ! !          !
+0xB4 AND   A       3 EXTENDED   4 # AND the accumulator
+0xB5 BIT   A       3 EXTENDED   4 # bit test the accumulator
+0xB6 LDA   A       3 EXTENDED   4 # load accumulator from memory
+0xB7 STA   A       3 EXTENDED   5 # store an accumulator in memory
+0xB8 EOR   A       3 EXTENDED   4 # XOR the accumulator
+0xB9 ADC   A       3 EXTENDED   4 # add contents of mem + carry flag to accumulator
+0xBA ORA   A       3 EXTENDED   4 # OR the accumulator
+0xBB ADD   A       3 EXTENDED   4 # add memory content to the accumlator
+0xBC CPX   X       3 EXTENDED   5 # compare the contents of mem to the index reg
+0xBD JSR   -       3 -          9 # jump to subroutine
+0xBE LDS   S       3 EXTENDED   5 # load the stack pointer
+0xBF STS   S       3 EXTENDED   6 # store the stack pointer
+0xC0 SUB   B       2 IMMEDIATE  2 # subtract memory contents from accumuator
+0xC1 CMP   B       2 IMMEDIATE  2 # compare the contents of memory to accumulator
+0xC2 SBC   B       2 IMMEDIATE  2 # subtract mem and carry flag from accumulator
+0xC3 !     !       ! !          !
+0xC4 AND   B       2 IMMEDIATE  2 # AND the accumulator
+0xC5 BIT   B       2 IMMEDIATE  2 # bit test the accumulator
+0xC6 LDA   B       2 IMMEDIATE  2 # load accumulator from memory
+0xC7 !STA! B       - IMMEDIATE  - # store an accumulator in memory
+0xC8 EOR   B       2 IMMEDIATE  2 # XOR the accumulator
+0xC9 ADC   B       2 IMMEDIATE  2 # add contents of mem + carry flag to accumulator
+0xCA ORA   B       2 IMMEDIATE  2 # OR the accumulator
+0xCB ADD   B       2 IMMEDIATE  2 # add memory content to the accumlator
+0xCC !     !       ! !          !
+0xCD !     !       ! !          !
+0xCE LDX   X       3 IMMEDIATE  3 # load the index register
+0xCF !STX! -       - IMMEDIATE  - # store the index register
+0xD0 SUB   B       2 DIRECT     3 # subtract memory contents from accumuator
+0xD1 CMP   B       2 DIRECT     3 # compare the contents of memory to accumulator
+0xD2 SBC   B       2 DIRECT     3 # subtract mem and carry flag from accumulator
+0xD3 !     !       ! !          !
+0xD4 AND   B       2 DIRECT     3 # AND the accumulator
+0xD5 BIT   B       2 DIRECT     3 # bit test the accumulator
+0xD6 LDA   B       2 DIRECT     3 # load accumulator from memory
+0xD7 STA   B       2 DIRECT     4 # store an accumulator in memory
+0xD8 EOR   B       2 DIRECT     3 # XOR the accumulator
+0xD9 ADC   B       2 DIRECT     3 # add contents of mem + carry flag to accumulator
+0xDA ORA   B       2 DIRECT     3 # OR the accumulator
+0xDB ADD   B       2 DIRECT     3 # add memory content to the accumlator
+0xDC !     !       !            !
+0xDD !HCF! -       - -          -
+0xDE LDX   X       2 DIRECT     4 # load the index register
+0xDF STX   X       2 DIRECT     5 # store the index register
+0xE0 SUB   B       2 INDEXED    5 # subtract memory contents from accumuator
+0xE1 CMP   B       2 INDEXED    5 # compare the contents of memory to accumulator
+0xE2 SBC   B       2 INDEXED    5 # subtract mem and carry flag from accumulator
+0xE3 !     !       ! !          !
+0xE4 AND   B       2 INDEXED    5 # AND the accumulator
+0xE5 BIT   B       2 INDEXED    5 # bit test the accumulator
+0xE6 LDA   B       2 INDEXED    5 # load accumulator from memory
+0xE7 STA   B       2 INDEXED    6 # store an accumulator in memory
+0xE8 EOR   B       2 INDEXED    5 # XOR the accumulator
+0xE9 ADC   B       2 INDEXED    5 # add contents of mem + carry flag to accumulator
+0xEA ORA   B       2 INDEXED    5 # OR the accumulator
+0xEB ADD   B       2 INDEXED    5 # add memory content to the accumlator
+0xEC !     !       ! !          !
+0xED !     !       ! !          !
+0xEE LDX   X       2 INDEXED    6 # load the index register
+0xEF STX   X       2 INDEXED    7 # store the index register
+0xF0 SUB   B       2 EXTENDED   4 # subtract memory contents from accumuator
+0xF1 CMP   B       2 EXTENDED   4 # compare the contents of memory to accumulator
+0xF2 SBC   B       2 EXTENDED   4 # subtract mem and carry flag from accumulator
+0xF3 !     !       ! !          !
+0xF4 AND   B       2 EXTENDED   4 # AND the accumulator
+0xF5 BIT   B       2 EXTENDED   4 # bit test the accumulator
+0xF6 LDA   B       2 EXTENDED   4 # load accumulator from memory
+0xF7 STA   B       2 EXTENDED   5 # store an accumulator in memory
+0xF8 EOR   B       2 EXTENDED   4 # XOR the accumulator
+0xF9 ADC   B       2 EXTENDED   4 # add contents of mem + carry flag to accumulator
+0xFA ORA   B       2 EXTENDED   4 # OR the accumulator
+0xFB ADD   B       2 EXTENDED   4 # add memory content to the accumlator
+0xFC !     !       ! !          !
+0xFD !     !       ! !          !
+0xFE LDX   X       2 EXTENDED   5 # load the index register
+0xFF STX   X       2 EXTENDED   6 # store the index register
