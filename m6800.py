@@ -17,19 +17,25 @@
 
 
 class A:
+
     def __init__(self, cpu):
         self.cpu = cpu
+
     def get(self):
         return self.cpu.accumulator_a
+
     def set(self, value):
         self.cpu.accumulator_a = value
 
 
 class B:
+
     def __init__(self, cpu):
         self.cpu = cpu
+
     def get(self):
         return self.cpu.accumulator_b
+
     def set(self, value):
         self.cpu.accumulator_b = value
 
@@ -87,9 +93,9 @@ class CPU:
     ####
 
     def op(self, opcode):
-        if opcode & 0x80: # 1.......
+        if opcode & 0x80:  # 1.......
             return [
-                "SUB", "CMP", "SBC", None ,
+                "SUB", "CMP", "SBC", None,
                 "AND", "BIT", self.LDA, "STA",
                 "EOR", "ADC", "ORA", self.ADD,
                 "CPX/!", "BSR/HCF/JSR/JSR/!", "LDS/LDX", "STS/STX",
@@ -97,59 +103,59 @@ class CPU:
                 [A, B][(opcode & 0x40) >> 6](self),
                 [self.immediate, "D", "X", "E"][(opcode & 0x30) >> 4]()
             )
-        else: # 0.......
-            if opcode & 0x40: # 01......
+        else:  # 0.......
+            if opcode & 0x40:  # 01......
                 return [
-                    "NEG", None , None , "COM",
-                    "LSR", None , "ROR", "ASR",
-                    "ASL", "ROL", "DEC", None ,
+                    "NEG", None, None, "COM",
+                    "LSR", None, "ROR", "ASR",
+                    "ASL", "ROL", "DEC", None,
                     "INC", "TST", "JMP", self.CLR,
                 ][opcode & 0x0F](
                     [A, B, "M", "E"][(opcode & 0x30) >> 4](self)
                 )
-            else: # 00......
-                if opcode & 0x20: # 001.....
-                    if opcode & 0x10: # 0011....
-                        if opcode & 0x08: # 00111...
+            else:  # 00......
+                if opcode & 0x20:  # 001.....
+                    if opcode & 0x10:  # 0011....
+                        if opcode & 0x08:  # 00111...
                             operation = opcode & 0x07
                             return [
-                                None , "RTS", None , "RTI",
-                                None , None , "WAI", "SWI",
+                                None, "RTS", None, "RTI",
+                                None, None, "WAI", "SWI",
                             ][operation]
-                        else: # 00110...
+                        else:  # 00110...
                             operation = opcode & 0x07
                             return [
                                 "TSX", "INS", "PUL:A", "PUL:B",
                                 "DES", "TXS", "PSH:A", "PSH:B",
                             ][operation]
-                    else: # 0010....
+                    else:  # 0010....
                         operation = opcode & 0x0F
                         return [
-                            "BRA", None , "BHI", "BLS",
+                            "BRA", None, "BHI", "BLS",
                             "BCC", "BCS", "BNE", "BEQ",
                             "BVC", "BVS", "BPL", "BMI",
                             "BGE", "BLT", "BGT", "BLE",
                         ][operation]
-                else: # 000.....
-                    if opcode & 0x10: # 0001....
+                else:  # 000.....
+                    if opcode & 0x10:  # 0001....
                         return [
-                            "SBA", "CBA", None , None ,
-                            "NBA", None , "TAB", "TBA",
-                            None , "DAA", None , self.ABA,
-                            None , None , None , None ,
+                            "SBA", "CBA", None, None,
+                            "NBA", None, "TAB", "TBA",
+                            None, "DAA", None, self.ABA,
+                            None, None, None, None,
                         ][opcode & 0x0F]()
-                    else: # 0000....
-                        if opcode & 0x08: # 00001...
+                    else:  # 0000....
+                        if opcode & 0x08:  # 00001...
                             operation = opcode & 0x07
                             return [
                                 "INX", "DEX", "CLV", "SEV",
                                 "CLC", "SEC", "CLI", "SEI",
                             ][operation]
-                        else: # 00000...
+                        else:  # 00000...
                             operation = opcode & 0x07
                             return [
-                                None , "NOP", None , None ,
-                                None , None , "TAP", "TPA",
+                                None, "NOP", None, None,
+                                None, None, "TAP", "TPA",
                             ][operation]
 
         raise Exception("0x{:02X}".format(opcode))

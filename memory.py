@@ -65,25 +65,3 @@ class Memory:
             self.ram.write_byte(address, value)
         if 0x400 <= address < 0x800 or 0x2000 <= address < 0x5FFF:
             self.bus_write(cycle, address, value)
-
-    def bus_read(self, cycle, address):
-        if not self.use_bus:
-            return 0
-        op = struct.pack("<IBHB", cycle, 0, address, 0)
-        try:
-            bus.send(op)
-            b = bus.recv(1)
-            if len(b) == 0:
-                sys.exit(0)
-            return ord(b)
-        except socket.error:
-            sys.exit(0)
-
-    def bus_write(self, cycle, address, value):
-        if not self.use_bus:
-            return
-        op = struct.pack("<IBHB", cycle, 1, address, value)
-        try:
-            bus.send(op)
-        except IOError:
-            sys.exit(0)

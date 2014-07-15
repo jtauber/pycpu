@@ -117,8 +117,8 @@ assert z80.memory[0x2A15] == 0x48
 z80.set_reg_pair_HL(0x4444)
 z80.memory[0:2] = [
     # LD (HL),28H # @@@
-    0b00110110, # 0x36
-    0b00101000, # 0x28
+    0b00110110,  # 0x36
+    0b00101000,  # 0x28
 ]
 z80.run()
 assert z80.memory[0x4444] == 0x28
@@ -139,7 +139,7 @@ assert z80.memory[0x219F] == 0x5A
 z80.set_reg_IY(0x940)
 z80.memory[0:4] = [
     0b11111101,
-    0b00110110, # LD (IY+10H),97AH
+    0b00110110,  # LD (IY+10H),97AH
     0b00010000,
     0b10010111,
 ]
@@ -220,7 +220,7 @@ assert z80.memory[0x3141] == 0xD7
 # test p122
 z80.memory[0:3] = [
     # LD HL,5000H
-    0b00100001, # 0x21
+    0b00100001,  # 0x21
     0x00,
     0x50,
 ]
@@ -252,7 +252,7 @@ z80.memory[0x4545] = 0x37
 z80.memory[0x4546] = 0xA1
 z80.memory[0:3] = [
     # LD HL,(4545H)
-    0b00101010, # 0x2A
+    0b00101010,  # 0x2A
     0x45,
     0x45,
 ]
@@ -322,8 +322,8 @@ assert z80.memory[0x1001] == 0x46
 z80.set_reg_IX(0x5A30)
 z80.memory[0:4] = [
     # LD (4392H),IX
-    0b11011101, # 0xDD
-    0b00100010, # 0x22
+    0b11011101,  # 0xDD
+    0b00100010,  # 0x22
     0x92,
     0x43,
 ]
@@ -335,8 +335,8 @@ assert z80.memory[0x4393] == 0x5A
 z80.set_reg_IY(0x4174)
 z80.memory[0:4] = [
     # LD (8838H),IY
-    0b11111101, # 0xFD
-    0b00100010, # 0x22
+    0b11111101,  # 0xFD
+    0b00100010,  # 0x22
     0x38,
     0x88,
 ]
@@ -378,7 +378,7 @@ z80.set_reg_pair_AF(0x2233)
 z80.set_reg_SP(0x1007)
 z80.memory[0:1] = [
     # PUSH AF
-    0b11110101, # F5
+    0b11110101,  # F5
 ]
 z80.run()
 assert z80.memory[0x1006] == 0x22
@@ -427,8 +427,8 @@ z80.memory[0x1000] = 0x55
 z80.memory[0x1001] = 0x33
 z80.memory[0:2] = [
     # POP IX
-    0b11011101, # 0xDD
-    0b11100001, # 0xE1
+    0b11011101,  # 0xDD
+    0b11100001,  # 0xE1
 ]
 z80.run()
 assert z80.get_reg_IX() == 0x3355
@@ -440,8 +440,8 @@ z80.memory[0x1000] = 0x55
 z80.memory[0x1001] = 0x33
 z80.memory[0:2] = [
     # POP IY
-    0b11111101, # 0xFD
-    0b11100001, # 0xE1
+    0b11111101,  # 0xFD
+    0b11100001,  # 0xE1
 ]
 z80.run()
 assert z80.get_reg_IY() == 0x3355
@@ -452,7 +452,7 @@ z80.set_reg_pair_DE(0x2822)
 z80.set_reg_pair_HL(0x499A)
 z80.memory[0:1] = [
     # EX DE,HL
-    0b11101011, # 0xEB
+    0b11101011,  # 0xEB
 ]
 z80.run()
 assert z80.get_reg_pair_DE() == 0x499A
@@ -462,18 +462,18 @@ assert z80.get_reg_pair_HL() == 0x2822
 z80.set_reg_pair_AF(0x9900)
 assert z80.get_reg_pair_AF() == 0x9900
 z80.memory[0:1] = [
-    0b00001000, # 0x08
+    0b00001000,  # 0x08
 ]
 z80.run()
 z80.set_reg_pair_AF(0x5944)
 assert z80.get_reg_pair_AF() == 0x5944
 z80.memory[0:1] = [
-    0b00001000, # 0x08
+    0b00001000,  # 0x08
 ]
 z80.run()
 assert z80.get_reg_pair_AF() == 0x9900
 z80.memory[0:1] = [
-    0b00001000, # 0x08
+    0b00001000,  # 0x08
 ]
 z80.run()
 assert z80.get_reg_pair_AF() == 0x5944
@@ -486,7 +486,7 @@ assert z80.get_reg_pair_BC() == 0x445A
 assert z80.get_reg_pair_DE() == 0x3DA2
 assert z80.get_reg_pair_HL() == 0x8859
 z80.memory[0:1] = [
-    0b11011001, # 0xD9
+    0b11011001,  # 0xD9
 ]
 z80.run()
 z80.set_reg_pair_BC(0x0988)
@@ -496,14 +496,14 @@ assert z80.get_reg_pair_BC() == 0x0988
 assert z80.get_reg_pair_DE() == 0x9300
 assert z80.get_reg_pair_HL() == 0x00E7
 z80.memory[0:1] = [
-    0b11011001, # 0xD9
+    0b11011001,  # 0xD9
 ]
 z80.run()
 assert z80.get_reg_pair_BC() == 0x445A
 assert z80.get_reg_pair_DE() == 0x3DA2
 assert z80.get_reg_pair_HL() == 0x8859
 z80.memory[0:1] = [
-    0b11011001, # 0xD9
+    0b11011001,  # 0xD9
 ]
 z80.run()
 assert z80.get_reg_pair_BC() == 0x0988
@@ -517,7 +517,7 @@ z80.memory[0x8856] = 0x11
 z80.memory[0x8857] = 0x22
 z80.memory[0:1] = [
     # EX (SP),HL
-    0b11100011, # 0xE3
+    0b11100011,  # 0xE3
 ]
 z80.run()
 assert z80.get_reg_pair_HL() == 0x2211
@@ -532,8 +532,8 @@ z80.memory[0x0100] = 0x90
 z80.memory[0x0101] = 0x48
 z80.memory[0:2] = [
     # EX (SP),IX
-    0b11011101, # 0xDD
-    0b11100011, # 0xE3
+    0b11011101,  # 0xDD
+    0b11100011,  # 0xE3
 ]
 z80.run()
 assert z80.get_reg_IX() == 0x4890
@@ -548,8 +548,8 @@ z80.memory[0x0100] = 0x90
 z80.memory[0x0101] = 0x48
 z80.memory[0:2] = [
     # EX (SP),IY
-    0b11111101, # 0xFD
-    0b11100011, # 0xE3
+    0b11111101,  # 0xFD
+    0b11100011,  # 0xE3
 ]
 z80.run()
 assert z80.get_reg_IY() == 0x4890
@@ -565,8 +565,8 @@ z80.memory[0x2222] = 0x66
 z80.set_reg_pair_BC(0x7)
 z80.memory[0:2] = [
     # LDI
-    0b11101101, # ED
-    0b10100000, # A0
+    0b11101101,  # ED
+    0b10100000,  # A0
 ]
 z80.run()
 assert z80.get_reg_pair_HL() == 0x1112
@@ -583,8 +583,8 @@ z80.memory[0x1111:0x1114] = [0x88, 0x36, 0xA5]
 z80.memory[0x2222:0x2225] = [0x66, 0x59, 0xC5]
 z80.memory[0:2] = [
     # LDIR
-    0b11101101, # ED
-    0b10110000, # B0
+    0b11101101,  # ED
+    0b10110000,  # B0
 ]
 z80.run()
 assert z80.get_reg_pair_HL() == 0x1114
@@ -601,8 +601,8 @@ z80.memory[0x2222] = 0x66
 z80.set_reg_pair_BC(0x7)
 z80.memory[0:2] = [
     # LDD
-    0b11101101, # ED
-    0b10101000, # A8
+    0b11101101,  # ED
+    0b10101000,  # A8
 ]
 z80.run()
 assert z80.get_reg_pair_HL() == 0x1110
@@ -619,8 +619,8 @@ z80.memory[0x1112:0x1115] = [0x88, 0x36, 0xA5]
 z80.memory[0x2223:0x2226] = [0x66, 0x59, 0xC5]
 z80.memory[0:2] = [
     # LDDR
-    0b11101101, # ED
-    0b10111000, # B8
+    0b11101101,  # ED
+    0b10111000,  # B8
 ]
 z80.run()
 assert z80.get_reg_pair_HL() == 0x1111
@@ -636,8 +636,8 @@ z80.set_reg_A(0x3B)
 z80.set_reg_pair_BC(0x001)
 z80.memory[0:2] = [
     # CPI
-    0b11101101, # 0xED
-    0b10100001, # 0xA1
+    0b11101101,  # 0xED
+    0b10100001,  # 0xA1
 ]
 z80.run()
 assert z80.get_reg_pair_BC() == 0x0000
@@ -654,8 +654,8 @@ z80.set_reg_pair_BC(0x7)
 z80.memory[0x1111:0x1114] = [0x52, 0x00, 0xF3]
 z80.memory[0:2] = [
     # CPIR
-    0b11101101, # 0xED
-    0b10110001, # 0xB1
+    0b11101101,  # 0xED
+    0b10110001,  # 0xB1
 ]
 z80.run()
 assert z80.get_reg_pair_HL() == 0x1114
@@ -670,8 +670,8 @@ z80.set_reg_A(0x3B)
 z80.set_reg_pair_BC(0x0001)
 z80.memory[0:2] = [
     # CPD
-    0b11101101, # 0xED
-    0b10101001, # 0xA9
+    0b11101101,  # 0xED
+    0b10101001,  # 0xA9
 ]
 z80.run()
 assert z80.get_reg_pair_BC() == 0x0000
@@ -688,8 +688,8 @@ z80.set_reg_pair_BC(0x7)
 z80.memory[0x1116:0x1119] = [0xF3, 0x00, 0x52]
 z80.memory[0:2] = [
     # CPDR
-    0b11101101, # 0xED
-    0b10111001, # 0xB9
+    0b11101101,  # 0xED
+    0b10111001,  # 0xB9
 ]
 z80.run()
 assert z80.get_reg_pair_HL() == 0x1115
@@ -714,7 +714,7 @@ assert z80.get_reg_A() == 0x55
 z80.set_reg_A(0x23)
 z80.memory[0:2] = [
     # ADD A,33H
-    0b11000110, # 0xC6
+    0b11000110,  # 0xC6
     0x33,
 ]
 z80.run()
@@ -725,7 +725,7 @@ z80.set_reg_A(0xA0)
 z80.set_reg_pair_HL(0x2323)
 z80.memory[0:1] = [
     # ADD A,(HL)
-    0b10000110, # 0x86
+    0b10000110,  # 0x86
 ]
 z80.memory[0x2323] = 0x08
 z80.run()
@@ -737,8 +737,8 @@ z80.set_reg_IX(0x1000)
 z80.memory[0x1005] = 0x22
 z80.memory[0:3] = [
     # ADD A,(IX+5H)
-    0b11011101, # 0xDD
-    0b10000110, # 0x86
+    0b11011101,  # 0xDD
+    0b10000110,  # 0x86
     0x05,
 ]
 z80.run()
@@ -750,8 +750,8 @@ z80.set_reg_IY(0x2000)
 z80.memory[0x2005] = 0x33
 z80.memory[0:3] = [
     # ADD A,(IY+5H)
-    0b11111101, # 0xFD
-    0b10000110, # 0x86
+    0b11111101,  # 0xFD
+    0b10000110,  # 0x86
     0x05,
 ]
 z80.run()
@@ -764,7 +764,7 @@ z80.set_reg_pair_HL(0x6666)
 z80.memory[0x6666] = 0x10
 z80.memory[0:1] = [
     # ADC A,(HL)
-    0b10001110, # 0x8E
+    0b10001110,  # 0x8E
 ]
 z80.run()
 assert z80.get_reg_A() == 0x27
@@ -774,7 +774,7 @@ z80.set_reg_A(0x16)
 z80.flag_C = 1
 z80.memory[0:2] = [
     # ADC A,10H
-    0b11001110, # 0xCE
+    0b11001110,  # 0xCE
     0x10,
 ]
 z80.run()
@@ -797,7 +797,7 @@ z80.set_reg_pair_HL(0x3433)
 z80.memory[0x3433] = 0x05
 z80.memory[0:1] = [
     # SBC A,(HL)
-    0b10011110, # 0x9E
+    0b10011110,  # 0x9E
 ]
 z80.run()
 assert z80.get_reg_A() == 0x10
@@ -826,7 +826,7 @@ assert z80.get_reg_A() == 0x5A
 z80.set_reg_A(0x96)
 z80.memory[0:2] = [
     # XOR 5DH
-    0b11101110, # 0xEE
+    0b11101110,  # 0xEE
     0x5D,
 ]
 z80.run()
@@ -838,14 +838,14 @@ z80.set_reg_pair_HL(0x6000)
 z80.memory[0x6000] = 0x60
 z80.memory[0:1] = [
     # CP (HL)
-    0b10111110, # 0xBE
+    0b10111110,  # 0xBE
 ]
-assert z80.flag_S == 0 # @@@
-assert z80.flag_Z == 0 # @@@
-assert z80.flag_H == 1 # @@@
-assert z80.flag_PV == 0 # @@@
-assert z80.flag_N == 1 # @@@
-assert z80.flag_C == 1 # @@@
+assert z80.flag_S == 0  # @@@
+assert z80.flag_Z == 0  # @@@
+assert z80.flag_H == 1  # @@@
+assert z80.flag_PV == 0  # @@@
+assert z80.flag_N == 1  # @@@
+assert z80.flag_C == 1  # @@@
 
 ### OPCODE COVERAGE
 

@@ -2,6 +2,7 @@ def from_twos_comp(val):
     assert 0x00 <= val <= 0xFF
     return -((0xFF ^ val) + 1) if val >= 0x80 else val
 
+
 def to_twos_comp(val):
     assert -128 <= val <= 127
     return 0xFF ^ -(val + 1) if val < 0 else val
@@ -26,17 +27,17 @@ class Z80:
         self.reg_E_shadow = 0x00
         self.reg_H_shadow = 0x00
         self.reg_L_shadow = 0x00
-        self.flag_S  = 0
-        self.flag_Z  = 0
+        self.flag_S = 0
+        self.flag_Z = 0
         self.flag_X5 = 0
-        self.flag_H  = 0
+        self.flag_H = 0
         self.flag_X3 = 0
         self.flag_PV = 0
-        self.flag_N  = 0
-        self.flag_C  = 0
-        self.reg_IX  = 0
-        self.reg_IY  = 0
-        self.reg_SP  = 0 # @@@
+        self.flag_N = 0
+        self.flag_C = 0
+        self.reg_IX = 0
+        self.reg_IY = 0
+        self.reg_SP = 0  # @@@
 
     def read_mem16(self, addr):
         lo = self.memory[addr]
@@ -50,7 +51,7 @@ class Z80:
 
     def get_PC(self):
         addr = self.PC
-        self.PC += 1 # 16-bit overflow @@@
+        self.PC += 1  # 16-bit overflow @@@
         return addr
 
     def read_PC(self):
@@ -79,14 +80,14 @@ class Z80:
         return self.reg_A
 
     def get_reg_F(self):
-        f = (self.flag_S  << 7) + \
-            (self.flag_Z  << 6) + \
+        f = (self.flag_S << 7) + \
+            (self.flag_Z << 6) + \
             (self.flag_X5 << 5) + \
-            (self.flag_H  << 4) + \
+            (self.flag_H << 4) + \
             (self.flag_X3 << 3) + \
             (self.flag_PV << 2) + \
-            (self.flag_N  << 1) + \
-            (self.flag_C  << 0)
+            (self.flag_N << 1) + \
+            (self.flag_C << 0)
         return f
 
     def get_reg_B(self):
@@ -149,14 +150,14 @@ class Z80:
 
     def set_reg_F(self, val):
         assert 0x00 <= val <= 0xFF
-        self.flag_S  = (0b10000000 & val) >> 7
-        self.flag_Z  = (0b01000000 & val) >> 6
+        self.flag_S = (0b10000000 & val) >> 7
+        self.flag_Z = (0b01000000 & val) >> 6
         self.flag_X5 = (0b00100000 & val) >> 5
-        self.flag_H  = (0b00010000 & val) >> 4
+        self.flag_H = (0b00010000 & val) >> 4
         self.flag_X3 = (0b00001000 & val) >> 3
         self.flag_PV = (0b00000100 & val) >> 2
-        self.flag_N  = (0b00000010 & val) >> 1
-        self.flag_C  = (0b00000001 & val) >> 0
+        self.flag_N = (0b00000010 & val) >> 1
+        self.flag_C = (0b00000001 & val) >> 0
         assert val == self.get_reg_F()
 
     def set_reg_B(self, val):
@@ -233,23 +234,28 @@ class Z80:
         self.reg_SP = val
 
     def reg_getter(self, bitcode):
-        return [self.get_reg_B, self.get_reg_C, self.get_reg_D, self.get_reg_E,
+        return [
+            self.get_reg_B, self.get_reg_C, self.get_reg_D, self.get_reg_E,
             self.get_reg_H, self.get_reg_L, self.get_indirect_HL, self.get_reg_A][bitcode]
 
     def reg_setter(self, bitcode):
-        return [self.set_reg_B, self.set_reg_C, self.set_reg_D, self.set_reg_E,
+        return [
+            self.set_reg_B, self.set_reg_C, self.set_reg_D, self.set_reg_E,
             self.set_reg_H, self.set_reg_L, self.set_indirect_HL, self.set_reg_A][bitcode]
 
     def reg_pair_getter(self, bitcode):
-        return [self.get_reg_pair_BC, self.get_reg_pair_DE, self.get_reg_pair_HL,
+        return [
+            self.get_reg_pair_BC, self.get_reg_pair_DE, self.get_reg_pair_HL,
             self.get_reg_SP][bitcode]
 
     def reg_pair_getter2(self, bitcode):
-        return [self.get_reg_pair_BC, self.get_reg_pair_DE, self.get_reg_pair_HL,
+        return [
+            self.get_reg_pair_BC, self.get_reg_pair_DE, self.get_reg_pair_HL,
             self.get_reg_pair_AF][bitcode]
 
     def reg_pair_setter(self, bitcode):
-        return [self.set_reg_pair_BC, self.set_reg_pair_DE, self.set_reg_pair_HL,
+        return [
+            self.set_reg_pair_BC, self.set_reg_pair_DE, self.set_reg_pair_HL,
             self.set_reg_SP][bitcode]
 
     def mem_setter(self, addr):
@@ -287,7 +293,7 @@ class Z80:
         tmp2 = self.get_reg_A()
         self.flag_S = 1 if tmp2 > tmp1 else 0
         self.flag_Z = 1 if tmp2 == tmp1 else 0
-        self.flag_H = 0 # @@@
+        self.flag_H = 0  # @@@
         self.flag_PV = 1 if self.get_reg_pair_BC() - 1 != 0 else 0
         self.flag_N = 1
         self.set_reg_pair_HL(self.get_reg_pair_HL() + 1)
@@ -298,7 +304,7 @@ class Z80:
         tmp2 = self.get_reg_A()
         self.flag_S = 1 if tmp2 > tmp1 else 0
         self.flag_Z = 1 if tmp2 == tmp1 else 0
-        self.flag_H = 0 # @@@
+        self.flag_H = 0  # @@@
         self.flag_PV = 1 if self.get_reg_pair_BC() - 1 != 0 else 0
         self.flag_N = 1
         self.set_reg_pair_HL(self.get_reg_pair_HL() - 1)
@@ -308,10 +314,10 @@ class Z80:
         val = from_twos_comp(self.get_reg_A()) + from_twos_comp(augend)
         self.flag_S = 1 if val < 0 else 0
         self.flag_Z = 1 if val == 0 else 0
-        self.flag_H = 1 if True else 0 # @@@
+        self.flag_H = 1 if True else 0  # @@@
         self.flag_PV = 0 if -128 <= val <= 127 else 1
         self.flag_N = 0
-        self.flag_C = 1 if True else 0 # @@@
+        self.flag_C = 1 if True else 0  # @@@
         self.set_reg_A(to_twos_comp(val))
 
     def ADC(self, augend):
@@ -322,10 +328,10 @@ class Z80:
         val = from_twos_comp(self.get_reg_A()) - from_twos_comp(subtrahend)
         self.flag_S = 1 if val < 0 else 0
         self.flag_Z = 1 if val == 0 else 0
-        self.flag_H = 1 if True else 0 # @@@
+        self.flag_H = 1 if True else 0  # @@@
         self.flag_PV = 0 if -128 <= val <= 127 else 1
         self.flag_N = 1
-        self.flag_C = 1 if True else 0 # @@@
+        self.flag_C = 1 if True else 0  # @@@
         self.set_reg_A(to_twos_comp(val))
 
     def SBC(self, subtrahend):
@@ -351,10 +357,10 @@ class Z80:
         val = from_twos_comp(self.get_reg_A()) - from_twos_comp(operand)
         self.flag_S = 1 if val < 0 else 0
         self.flag_Z = 1 if val == 0 else 0
-        self.flag_H = 1 if True else 0 # @@@
+        self.flag_H = 1 if True else 0  # @@@
         self.flag_PV = 0 if -128 <= val <= 127 else 1
         self.flag_N = 1
-        self.flag_C = 1 if True else 0 # @@@
+        self.flag_C = 1 if True else 0  # @@@
 
     def run(self):
         self.PC = 0x0000
@@ -380,24 +386,24 @@ class Z80:
         op_z = (0b00000111 & op)
 
         if op_x == 0b00:
-            if op == 0b00000010: # 0x02
+            if op == 0b00000010:  # 0x02
                 addr = self.get_reg_pair_BC()
                 self.memory[addr] = self.get_reg_A()
-            elif op == 0b00001000: # 0x08
+            elif op == 0b00001000:  # 0x08
                 # EX AF,AF'
                 tmp = self.get_reg_pair_AF_shadow()
                 self.set_reg_pair_AF_shadow(self.get_reg_pair_AF())
                 self.set_reg_pair_AF(tmp)
-            elif op == 0b00001010: # 0x0A
+            elif op == 0b00001010:  # 0x0A
                 addr = self.get_reg_pair_BC()
                 self.set_reg_A(self.memory[addr])
-            elif op == 0b00010010: # 0x12
+            elif op == 0b00010010:  # 0x12
                 addr = self.get_reg_pair_DE()
                 self.memory[addr] = self.get_reg_A()
-            elif op == 0b00011010: # 0x1A
+            elif op == 0b00011010:  # 0x1A
                 addr = self.get_reg_pair_DE()
                 self.set_reg_A(self.memory[addr])
-            elif op == 0b00100001: # 0x21
+            elif op == 0b00100001:  # 0x21
                 if prefix == 0xDD:
                     setter = self.set_reg_IX
                 elif prefix == 0xFD:
@@ -405,7 +411,7 @@ class Z80:
                 else:
                     setter = self.set_reg_pair_HL
                 setter(self.read16_PC())
-            elif op == 0b00100010: # 0x22
+            elif op == 0b00100010:  # 0x22
                 if prefix == 0xDD:
                     getter = self.get_reg_IX
                 elif prefix == 0xFD:
@@ -414,7 +420,7 @@ class Z80:
                     getter = self.get_reg_pair_HL
                 addr = self.read16_PC()
                 self.write_mem16(addr, getter())
-            elif op == 0b00101010: # 0x2A
+            elif op == 0b00101010:  # 0x2A
                 if prefix == 0xDD:
                     setter = self.set_reg_IX
                 elif prefix == 0xFD:
@@ -423,10 +429,10 @@ class Z80:
                     setter = self.set_reg_pair_HL
                 addr = self.read16_PC()
                 setter(self.read_mem16(addr))
-            elif op == 0b00110010: # 0x32
+            elif op == 0b00110010:  # 0x32
                 addr = self.read16_PC()
                 self.memory[addr] = self.get_reg_A()
-            elif op == 0b00110110: # 0x36
+            elif op == 0b00110110:  # 0x36
                 if prefix == 0xDD:
                     addr = self.get_reg_IX() + from_twos_comp(self.read_PC())
                 elif prefix == 0xFD:
@@ -434,12 +440,12 @@ class Z80:
                 else:
                     addr = self.get_reg_pair_HL()
                 self.memory[addr] = self.read_PC()
-            elif op == 0b00111010: # 0x3A
+            elif op == 0b00111010:  # 0x3A
                 addr = self.read16_PC()
                 self.set_reg_A(self.memory[addr])
-            elif op_q == 0b0001: # LD rr,nn
+            elif op_q == 0b0001:  # LD rr,nn
                 self.reg_pair_setter(op_p)(self.read16_PC())
-            elif op_z == 0b100: # INC m
+            elif op_z == 0b100:  # INC m
                 # @@@ can this be reused:
                 if prefix == 0xDD or prefix == 0xFD:
                     if prefix == 0xDD:
@@ -454,15 +460,15 @@ class Z80:
                     setter = self.reg_setter(op_y)
                 # @@@ ???
                 prev_val = getter()
-                val = prev_val + 1 # @@@ handle overflow
+                val = prev_val + 1  # @@@ handle overflow
                 setter(val)
-                self.flag_S = 1 if val < 0 else 0 # @@@
+                self.flag_S = 1 if val < 0 else 0  # @@@
                 self.flag_Z = 1 if val == 0 else 0
-                self.flag_H = 1 if True else 0 # @@@
+                self.flag_H = 1 if True else 0  # @@@
                 self.flag_PV = 1 if prev_val == 0x7F else 0
                 self.flag_N = 0
                 # flag_C not affected
-            elif op_z == 0b101: # DEC m
+            elif op_z == 0b101:  # DEC m
                 # @@@ can this be reused:
                 if prefix == 0xDD or prefix == 0xFD:
                     if prefix == 0xDD:
@@ -477,25 +483,25 @@ class Z80:
                     setter = self.reg_setter(op_y)
                 # @@@ ???
                 prev_val = getter()
-                val = prev_val - 1 # @@@ handle overflow
+                val = prev_val - 1  # @@@ handle overflow
                 setter(val)
-                self.flag_S = 1 if val < 0 else 0 # @@@
+                self.flag_S = 1 if val < 0 else 0  # @@@
                 self.flag_Z = 1 if val == 0 else 0
-                self.flag_H = 1 if True else 0 # @@@
+                self.flag_H = 1 if True else 0  # @@@
                 self.flag_PV = 1 if prev_val == 0x80 else 0
                 self.flag_N = 0
                 # flag_C not affected
-            elif op_z == 0b110: # LD r,n
+            elif op_z == 0b110:  # LD r,n
                 self.reg_setter(op_y)(self.read_PC())
             else:
                 raise Exception("unknown operand")
 
-        elif op_x == 0b01: # LD r,r
+        elif op_x == 0b01:  # LD r,r
             if prefix == 0xED:
-                if op_q == 0b0011: # LD (nn),dd
+                if op_q == 0b0011:  # LD (nn),dd
                     addr = self.read16_PC()
                     self.write_mem16(addr, self.reg_pair_getter(op_p)())
-                elif op_q == 0b1011: # LD dd,(nn)
+                elif op_q == 0b1011:  # LD dd,(nn)
                     addr = self.read16_PC()
                     self.reg_pair_setter(op_p)(self.read_mem16(addr))
                 else:
@@ -521,46 +527,46 @@ class Z80:
 
         elif op_x == 0b10:
             if prefix == 0xED:
-                if op == 0b10100000: # 0xA0
+                if op == 0b10100000:  # 0xA0
                     # LDI
                     self.LDI()
-                elif op == 0b10100001: # 0xA1
+                elif op == 0b10100001:  # 0xA1
                     # CPI
                     self.CPI()
-                elif op == 0b10101000: # 0xA8
+                elif op == 0b10101000:  # 0xA8
                     # LDD
                     self.LDD()
-                elif op == 0b10101001: # 0xA9
+                elif op == 0b10101001:  # 0xA9
                     # CPD
                     self.CPD()
-                elif op == 0b10110000: # 0xB0
+                elif op == 0b10110000:  # 0xB0
                     while True:
                         self.LDI()
                         if self.get_reg_pair_BC() == 0x00:
                             break
                         else:
-                            pass # @@@ PC decrement?
-                elif op == 0b10110001: # 0bB1
+                            pass  # @@@ PC decrement?
+                elif op == 0b10110001:  # 0bB1
                     while True:
                         self.CPI()
                         if self.get_reg_pair_BC() == 0x00 or self.flag_Z == 1:
                             break
                         else:
-                            pass # @@@ PC decrement?
-                elif op == 0b10111000: # 0xB8
+                            pass  # @@@ PC decrement?
+                elif op == 0b10111000:  # 0xB8
                     while True:
                         self.LDD()
                         if self.get_reg_pair_BC() == 0:
                             break
                         else:
-                            pass # @@@ PC decrement?
-                elif op == 0b10111001: # 0xB9
+                            pass  # @@@ PC decrement?
+                elif op == 0b10111001:  # 0xB9
                     while True:
                         self.CPD()
                         if self.get_reg_pair_BC() == 0x00 or self.flag_Z == 1:
                             break
                         else:
-                            pass # @@@ PC decrement?
+                            pass  # @@@ PC decrement?
                 else:
                     raise Exception("unknown operand")
             else:
@@ -577,7 +583,7 @@ class Z80:
                             augend = self.memory[addr]
                         else:
                             raise Exception("unknown operand")
-                    else: # ADD A,r
+                    else:  # ADD A,r
                         augend = self.reg_getter(op_z)()
 
                     self.ADD(augend)
@@ -600,7 +606,7 @@ class Z80:
 
                     self.ADC(augend)
 
-                elif op_y == 0b010: # how can this be merged with ADD? @@@
+                elif op_y == 0b010:  # how can this be merged with ADD? @@@
                     if prefix == 0xDD:
                         if op_z == 0x110:
                             addr = self.get_reg_IX() + from_twos_comp(self.read_PC())
@@ -618,7 +624,7 @@ class Z80:
 
                     self.SUB(subtrahend)
 
-                elif op_y == 0b011: # how can this be merged with ADD? @@@
+                elif op_y == 0b011:  # how can this be merged with ADD? @@@
                     if prefix == 0xDD:
                         if op == 0x110:
                             addr = self.get_reg_IX() + from_twos_comp(self.read_PC())
@@ -636,7 +642,7 @@ class Z80:
 
                     self.SBC(subtrahend)
 
-                elif op_y == 0b100: # how can this be merged with ADD? @@@
+                elif op_y == 0b100:  # how can this be merged with ADD? @@@
                     if prefix == 0xDD:
                         if op == 0x110:
                             addr = self.get_reg_IX() + from_twos_comp(self.read_PC())
@@ -654,7 +660,7 @@ class Z80:
 
                     self.AND(val)
 
-                elif op_y == 0b101: # how can this be merged with ADD? @@@
+                elif op_y == 0b101:  # how can this be merged with ADD? @@@
                     if prefix == 0xDD:
                         if op == 0x110:
                             addr = self.get_reg_IX() + from_twos_comp(self.read_PC())
@@ -672,7 +678,7 @@ class Z80:
 
                     self.XOR(val)
 
-                elif op_y == 0b110: # how can this be merged with ADD? @@@
+                elif op_y == 0b110:  # how can this be merged with ADD? @@@
                     if prefix == 0xDD:
                         if op == 0x110:
                             addr = self.get_reg_IX() + from_twos_comp(self.read_PC())
@@ -695,14 +701,14 @@ class Z80:
 
         elif op_x == 0b11:
 
-            if op_q == 0b0001: # POP
+            if op_q == 0b0001:  # POP
                 if prefix == 0xDD:
-                    if op == 0b11100001: # 0xE1
+                    if op == 0b11100001:  # 0xE1
                         setter = self.set_reg_IX
                     else:
                         raise Exception("unknown operand")
                 elif prefix == 0xFD:
-                    if op == 0b11100001: # 0xE1
+                    if op == 0b11100001:  # 0xE1
                         setter = self.set_reg_IY
                     else:
                         raise Exception("unknown operand")
@@ -711,14 +717,14 @@ class Z80:
 
                 setter(self.pop16())
 
-            elif op_q == 0b0101: # PUSH
+            elif op_q == 0b0101:  # PUSH
                 if prefix == 0xDD:
-                    if op == 0b11100101: # 0xE5
+                    if op == 0b11100101:  # 0xE5
                         getter = self.get_reg_IX
                     else:
                         raise Exception("unknown operand")
                 elif prefix == 0xFD:
-                    if op == 0b11100101: # 0xE5
+                    if op == 0b11100101:  # 0xE5
                         getter = self.get_reg_IY
                     else:
                         raise Exception("unknown operand")
@@ -727,13 +733,13 @@ class Z80:
 
                 self.push16(getter())
 
-            elif op == 0xC6: # ADD A,n
-                self.ADD(self.read_PC()) #
-            elif op == 0xCE: # ADC A,n   # how to tie these in with 86/8E? @@@
-                self.ADC(self.read_PC()) #
-            elif op == 0xD6: # SUB n
+            elif op == 0xC6:  # ADD A,n
+                self.ADD(self.read_PC())  #
+            elif op == 0xCE:  # ADC A,n   # how to tie these in with 86/8E? @@@
+                self.ADC(self.read_PC())  #
+            elif op == 0xD6:  # SUB n
                 self.SUB(self.read_PC())
-            elif op == 0xDE: # SBC n
+            elif op == 0xDE:  # SBC n
                 self.SBC(self.read_PC())
             elif op == 0xD9:
                 # EXX
@@ -760,16 +766,16 @@ class Z80:
                 tmp = self.read_mem16(self.get_reg_SP())
                 self.write_mem16(self.get_reg_SP(), getter())
                 setter(tmp)
-            elif op == 0xE6: # AND n
+            elif op == 0xE6:  # AND n
                 self.AND(self.read_PC())
             elif op == 0xEB:
                 # EX DE,HL
                 tmp = self.get_reg_pair_HL()
                 self.set_reg_pair_HL(self.get_reg_pair_DE())
                 self.set_reg_pair_DE(tmp)
-            elif op == 0xEE: # XOR n
+            elif op == 0xEE:  # XOR n
                 self.XOR(self.read_PC())
-            elif op == 0xF6: # OR n
+            elif op == 0xF6:  # OR n
                 self.OR(self.read_PC())
             elif op == 0xF9:
                 if prefix == 0xDD:
@@ -781,7 +787,7 @@ class Z80:
 
                 self.set_reg_SP(getter())
 
-            elif op == 0xFE: # CP n
+            elif op == 0xFE:  # CP n
                 self.CP(self.read_PC())
             else:
                 raise Exception("unknown operand")

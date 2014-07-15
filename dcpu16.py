@@ -199,14 +199,16 @@ class DCPU16:
             if self.skip:
                 self.skip = False
             else:
-                if 0x01 <= opcode <=0xB: # write to memory
+                if 0x01 <= opcode <= 0xB:  # write to memory
                     op(arg1, arg2)
                 else:
                     op(arg1, arg2)
 
     def dump_registers(self):
-        print(" ".join("%s=%04X" % (["A", "B", "C", "X", "Y", "Z", "I", "J"][i],
-            self.memory[0x10000 + i]) for i in range(8)))
+        print(" ".join("%s=%04X" % (
+            ["A", "B", "C", "X", "Y", "Z", "I", "J"][i],
+            self.memory[0x10000 + i]) for i in range(8)
+        ))
         print("PC={0:04X} SP={1:04X} O={2:04X}".format(*[self.memory[i] for i in (PC, SP, O)]))
 
     def dump_stack(self):
