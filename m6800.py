@@ -35,57 +35,57 @@ class B:
 
 
 class CPU:
-    
+
     def __init__(self, memory):
         self.memory = memory
-        
+
         self.accumulator_a = 0x00
         self.accumulator_b = 0x00
         self.index_register = 0x0000
         self.program_counter = 0x0000
         self.stack_point = 0x0000
-        
+
         self.flag_H = 0
         self.flag_I = 0
         self.flag_N = 0
         self.flag_Z = 0
         self.flag_V = 0
         self.flag_C = 0
-    
+
     ####
-    
+
     # @@@ shared
     def get_pc(self, inc=1):
         pc = self.program_counter
         self.program_counter += inc
         return pc
-    
+
     # @@@
     def read_byte(self, address):
         return self.memory.read_byte(address)
-    
+
     # def read_word(self, address):
     #     return self.memory.read_word(address)
-    
+
     # @@@ shared
     def read_pc_byte(self):
         return self.read_byte(self.get_pc())
-    
+
     # def read_pc_word(self):
     #     return self.read_word(self.get_pc(2))
 
     # def write_byte(self, address, value):
     #     self.memory.write_byte(address, value)
-    
+
     def test_run(self, start, end):
         self.program_counter = start
         while True:
             if self.program_counter == end:
                 break
             self.op(self.read_pc_byte())
-    
+
     ####
-    
+
     def op(self, opcode):
         if opcode & 0x80: # 1.......
             return [
@@ -151,57 +151,57 @@ class CPU:
                                 None , "NOP", None , None ,
                                 None , None , "TAP", "TPA",
                             ][operation]
-        
+
         raise Exception("0x{:02X}".format(opcode))
-    
+
     ####
-    
+
     # @@@ shared
     def update_nz(self, value):
         value = value % 0x100
         self.flag_Z = 1 if (value == 0) else 0
         self.flag_N = 1 if ((value & 0x80) != 0) else 0
         return value
-    
+
     # @@@ shared
     def update_nzc(self, value):
         self.flag_C = 1 if (value > 0xFF) else 0
         return self.update_nz(value)
-    
+
     ####
-    
+
     # @@@ shared
     def immediate(self):
         return self.get_pc()
-    
+
     ####
-    
+
     def ABA(self):
         self.accumulator_a = self.update_nzc(self.accumulator_a + self.accumulator_b)
         # @@@ overflow flag
         # @@@ half-carry flag
-    
+
     def ADD(self, accumulator, operand_address):
         accumulator.set(self.update_nzc(accumulator.get() + self.read_byte(operand_address)))
         # @@@ overflow flag
         # @@@ half-carry flag
-    
+
     def CLR(self, what):
         what.set(0x00)
         self.flag_N = 0
         self.flag_Z = 1
         self.flag_V = 0
         self.flag_C = 0
-    
+
     def LDA(self, accumulator, operand_address):
-        accumulator.set(self.update_nz(self.read_byte(operand_address)))        
+        accumulator.set(self.update_nz(self.read_byte(operand_address)))
         self.flag_V = 0
 
 
 class TestMemory:
     def __init__(self, data):
         self.data = data
-    
+
     def read_byte(self, address):
         return self.data[address]
 
@@ -209,12 +209,12 @@ class TestMemory:
 class test_cpu(object):
     def __init__(self, *program):
         self.program = program
-        
+
     def __enter__(self):
         cpu = CPU(TestMemory(self.program))
         cpu.test_run(0, len(self.program))
         return cpu
-    
+
     def __exit__(self, type, value, traceback):
         pass
 

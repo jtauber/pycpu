@@ -16,7 +16,7 @@
 0x0F SEI   Flags   1 -          2 # set the interrupt flag
 0x10 SBA   AB      1 -          2 # subtract B from A
 0x11 CBA   AB      1 -          2 # compare B to A
-0x12 !     !       ! !          ! 
+0x12 !     !       ! !          !
 0x13 !     !       ! !          !
 0x14 !NBA! AB      1 -          2 # AND accumulators
 0x15 !     !       ! !          !

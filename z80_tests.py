@@ -30,7 +30,7 @@ z80.set_reg_H(0x8A)
 z80.set_reg_E(0x10)
 z80.memory[0:1] = [
     # LD H,E
-    0b01100011, 
+    0b01100011,
 ]
 z80.run()
 assert z80.get_reg_H() == 0x10
@@ -117,7 +117,7 @@ assert z80.memory[0x2A15] == 0x48
 z80.set_reg_pair_HL(0x4444)
 z80.memory[0:2] = [
     # LD (HL),28H # @@@
-    0b00110110, # 0x36 
+    0b00110110, # 0x36
     0b00101000, # 0x28
 ]
 z80.run()
